@@ -1,3 +1,4 @@
+from openai import OpenAI
 import openai
 import requests
 import json
@@ -5,10 +6,9 @@ import config
 
 # Create an OpenAI client
 MODEL_NAME = "gpt-4o-2024-05-13"
-from openai import OpenAI
 client = OpenAI(
     # this is also the default, it can be omitted
-    api_key= config.YOUR_API_KEY,
+    api_key=config.YOUR_API_KEY,
 )
 
 
@@ -24,6 +24,7 @@ def get_current_weather(location, unit="celsius"):
     else:
         return json.dumps({"location": location, "temperature": "unknown"})
 
+
 def get_vacation(user):
     if "john" in user.lower():
         return json.dumps({"vacation": "5 days"})
@@ -33,6 +34,7 @@ def get_vacation(user):
         return json.dumps({"vacation": "20 days"})
     else:
         return json.dumps({"vacation": "first tell me your name?"})
+
 
 def agent_orchestrator(prompt):
     messages = [{"role": "user", "content": prompt}]
@@ -75,10 +77,10 @@ def agent_orchestrator(prompt):
         }
     ]
     response = client.chat.completions.create(
-        model=MODEL_NAME, messages=messages, tools=tools_list, tool_choice = 'auto')
-    response_message =  response.choices[0].message 
+        model=MODEL_NAME, messages=messages, tools=tools_list, tool_choice='auto')
+    response_message = response.choices[0].message
     tool_calls = response_message.tool_calls
-    #check if the model wants to call a function
+    # check if the model wants to call a function
     if tool_calls:
         available_functions = {
             "get_current_weather": get_current_weather,
@@ -95,8 +97,8 @@ def agent_orchestrator(prompt):
             function_args = json.loads(tool_call.function.arguments)
             if function_name == 'get_vacation':
                 function_response = function_to_call(
-                user=function_args.get("user"),     
-            )
+                    user=function_args.get("user"),
+                )
             else:
                 function_response = function_to_call(
                     location=function_args.get("location"),
@@ -110,7 +112,7 @@ def agent_orchestrator(prompt):
                     "content": function_response,
                 }
             )  # extend conversation with function responsete
-            
+
             second_response = client.chat.completions.create(
                 model=MODEL_NAME,
                 messages=messages,
