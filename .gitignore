@@ -3,3 +3,5 @@
 OpenAI/Agent/agent-example/__pycache__/*
 OpenAI/Agent/agent-example/config.py
 OpenAI/Agent/agent-example/config.py
+
+.env
