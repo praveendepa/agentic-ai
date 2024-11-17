@@ -1,4 +1,3 @@
-
 # Create an OpenAI client
 #MODEL_NAME = "gpt-4o-2024-05-13"
 MODEL_NAME = "gpt-3.5-turbo"
