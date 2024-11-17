@@ -1,11 +1,9 @@
 .DS_Store
 .chainlit/
+__pycache__/
 
 .env
 
-OpenAI/Agent/agent-example/__pycache__/*
-OpenAI/Agent/agent-example/config.py
-OpenAI/Agent/agent-example/config.py
-
-src/agentic_ai/__pycache__
-src/agentic_ai/fucntions/__pycache__
+# src/agentic_ai/__pycache__/*
+# src/agentic_ai/functions/__pycache__/*
+# src/agentic_ai/models/__pycache__/*
