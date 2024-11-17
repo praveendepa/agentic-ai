@@ -5,7 +5,7 @@ from typing import Union, List
 # from langchain.embeddings import AzureOpenAIEmbeddings
 
 import numpy as np
-import tiktoken
+# import tiktoken
 
 from openai import OpenAI
 from typing import List, Optional, Tuple

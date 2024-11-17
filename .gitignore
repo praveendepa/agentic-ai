@@ -4,6 +4,8 @@ __pycache__/
 
 .env
 
+data/
+
 # src/agentic_ai/__pycache__/*
 # src/agentic_ai/functions/__pycache__/*
 # src/agentic_ai/models/__pycache__/*

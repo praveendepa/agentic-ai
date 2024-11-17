@@ -9,9 +9,7 @@ from agentic_ai.functions.agents import get_current_weather, get_price, get_sale
 
 def agent_orchestrator(prompt):
 
-    client = OpenAI()
-    #weather_key = config.WEATHER_API_KEY
-    weather_key = os.environ.get("WEATHER_API_KEY")
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     messages = [{"role": "user", "content": prompt}]
 
@@ -121,7 +119,6 @@ def agent_orchestrator(prompt):
                 )
             elif function_name == 'get_current_weather':
                 function_response = function_to_call(
-                    weather_key,
                     location=function_args.get("location"),
                     unit=function_args.get("unit"),
                 )

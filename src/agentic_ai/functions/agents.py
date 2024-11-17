@@ -1,4 +1,5 @@
 import json
+import os
 import pandas as pd
 import requests
 
@@ -8,19 +9,11 @@ from agentic_ai.functions.ui_fn import converse
 from agentic_ai.functions.sqldb_fn import get_conn
 from agentic_ai.functions.llm_fn import parse_response_for_query
 
-def get_current_weather(weather_key,location, unit="celsius"):
+def get_current_weather(location, unit="celsius"):
     # in this example, we will ignore the units parameter
     """Get the current weather in a given location"""
-    # if "tokyo" in location.lower():
-    #     return json.dumps({"location": "Tokyo", "temperature": "10", "unit": unit})
-    # elif "rome" in location.lower():
-    #     return json.dumps({"location": "rome", "temperature": "72", "unit": unit})
-    # elif "paris" in location.lower():
-    #     return json.dumps({"location": "Paris", "temperature": "22", "unit": unit})
-    # else:
-    #     return json.dumps({"location": location, "temperature": "unknown"})
-
-    api_url = "http://api.weatherapi.com/v1/current.json?key={}&q={}".format(weather_key,location)
+    weather_api_key=os.environ.get("WEATHER_API_KEY")
+    api_url = "http://api.weatherapi.com/v1/current.json?key={}&q={}".format(weather_api_key,location)
     response = requests.get(api_url)
     return json.dumps({"location": location, "temperature": response.json()['current']['temp_c']})
 
