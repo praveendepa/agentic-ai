@@ -73,7 +73,8 @@ def agent_orchestrator(prompt):
             "type": "function",
             "function": {
                 "name": "get_sales",
-                "description": "Call this when you detect the question is a query about sales data. Return the same user question ",
+                # "description": "Call this when you detect the question is a query about sales data. Return the same user question ",
+                "description": "Call this when you detect the question is a query about searching tables or a database. Return the same user question ",
                     "parameters": {
                         "type": "object",
                         "properties": {

@@ -80,6 +80,20 @@ def get_table_schema(conn: sqlite3.Connection, table_name: str) -> pd.DataFrame:
     query = f"PRAGMA table_info({table_name});"
     return pd.read_sql_query(query, conn)
 
+def get_db_schema(conn: sqlite3.Connection) -> str:
+    """Get schemas of all the tables in the database."""
+    cursor = conn.cursor()
+
+    sql_query = """SELECT name FROM sqlite_master WHERE type='table';"""
+    cursor.execute(sql_query)
+    tables = cursor.fetchall()
+
+    db_prompt = ""
+    for table_name in tables:
+        result = cursor.execute("SELECT sql FROM sqlite_master WHERE name='%s'" % table_name).fetchone()[0]
+        db_prompt += "Table '%s' created by '%s' \n" % (table_name[0], result)
+        
+    return db_prompt
 
 def get_db_creation_sql(conn: sqlite3.Connection) -> str:
     """Construct a description of the DB schema for the LLM by retrieving the

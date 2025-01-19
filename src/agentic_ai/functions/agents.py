@@ -43,7 +43,7 @@ def get_sales(question):
     response = converse(question)
 
     question, explanation, query = parse_response_for_query(response.choices[0].message.content)
-
+    
     query = query.strip().rstrip().replace('\n', ' ').replace('sql', ' ')
 
     print(question)

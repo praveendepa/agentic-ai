@@ -7,14 +7,15 @@ import agentic_ai.config as config
 
 from agentic_ai.models.memory import Memory
 from agentic_ai.functions.agent_orchestrator import agent_orchestrator
-from agentic_ai.functions.sqldb_fn import setup_db
+from agentic_ai.functions.sqldb_fn import setup_db, get_conn
 
 
 memory = Memory()
 load_dotenv(".env")
 
 # Setup database
-setup_db(csv_file=config.csv_file, table_name=config.table_name, database=config.database)
+# setup_db(csv_file=config.csv_file, table_name=config.table_name, database=config.database)
+get_conn(db_file=config.database)
 
 def main():
     print("Welcome to the OpenAI Agent. Type 'exit' to quit.")

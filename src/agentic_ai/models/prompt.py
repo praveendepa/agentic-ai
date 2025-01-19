@@ -2,7 +2,7 @@ import json
 
 import agentic_ai.config as config
 
-from agentic_ai.functions.sqldb_fn import get_conn, get_table_schema
+from agentic_ai.functions.sqldb_fn import get_conn, get_table_schema, get_db_schema
 
 
 
@@ -31,7 +31,8 @@ class PromptData:
         #self.database = "./data/database.db"
         conn = get_conn(db_file=config.database)
 
-        self.schema = get_table_schema(conn=conn, table_name=config.table_name)
+        # self.schema = get_table_schema(conn=conn, table_name=config.table_name)
+        self.schema = get_db_schema(conn=conn)
         #self.schema = setup(self.csv_file, self.table_name, self.database)
         
     def get_table_prompt(self) -> str:
@@ -40,14 +41,20 @@ class PromptData:
         self.prompt = 'Your job is to write SQL queries on the following table.\n'
         self.prompt += f'Table name: {config.table_name}\n'
         self.prompt += f'Table schema:\n{self.schema}\n\n'
-
+        self.prompt += '\n------------------------------------------------------\n'
+        return self.prompt
+    
+    def get_db_prompt(self) -> str:
+        """ Writes a prompt to show information about the tables in the database """
+        self.prompt = 'Your job is to write SQL queries on the tables as described below.\n'
+        self.prompt += f'\n{self.schema}\n\n'
         self.prompt += '\n------------------------------------------------------\n'
         return self.prompt
     
     def get_user_agent_prompt(self) -> str:
-        self.prompt = self.get_table_prompt()
-        self.prompt += 'Below is a question input from a user. '
-        self.prompt += 'Generate an SQL query that pulls the necessary data to answer the question.\n\n'
+        self.prompt = self.get_db_prompt()
+        self.prompt += 'You are SQL query writer for tables mentioned above. Below is a question input from a user. '
+        self.prompt += 'Generate the query that pulls the necessary data to answer the question.\n\n'
         self.prompt += 'Return your answer by filling out the following template:\n'
         self.prompt += self.EXP_QUERY_TEMPLATE
 
